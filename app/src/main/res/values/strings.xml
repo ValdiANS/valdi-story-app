@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name" translatable="false">ValdiStoryApp</string>
+    <string name="rocks_banner">Rocks Banner</string>
+    <string name="valdi_story_app_logo" translatable="false">Valdi Story App Logo</string>
+    <string name="valdi_story_app_banner" translatable="false">Valdi\nStory\nApp</string>
+    <string name="storm_icon">Storm Icon</string>
+    <string name="story_app_slogan">Place to share your stories</string>
+    <string name="first_slide_image_desc">Neom Story Image</string>
+    <string name="second_slide_image_desc">Kalem Emsley Story Image</string>
+    <string name="third_slide_image_desc">Garrett Sears Story Image</string>
+    <string name="neom" translatable="false">Neom</string>
+    <string name="neom_initial" translatable="false">N</string>
+    <string name="kalen_emsley" translatable="false">Kalen Emsley</string>
+    <string name="kalen_emsley_initial" translatable="false">K</string>
+    <string name="garrett_sears" translatable="false">Garrett Sears</string>
+    <string name="garrett_sears_initial" translatable="false">G</string>
+    <string name="password_error_msg">Password should be at least 8 characters long</string>
+    <string name="email_input_label">Email</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up_suggestion">Don’t have an account yet? Sign up here.</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="email_error_msg">Email format is incorrect</string>
+    <string name="register_here">Register Here</string>
+    <string name="sign_in_suggestion">Already have an account? Sign in here.</string>
+    <string name="name_input_label">Name</string>
+    <string name="required_email_error_msg">Email is required!</string>
+    <string name="password_required_error_msg">Password is required!</string>
+    <string name="name_required_error_msg">Name is required!</string>
+    <string name="dummy_date" translatable="false">Posted at 10:00 AM, 17 August 1945</string>
+    <string name="app_name_with_space" translatable="false">Valdi Story App</string>
+    <string name="logout">Logout</string>
+    <string name="about">About</string>
+    <string name="empty_story_message">There are no stories yet…</string>
+    <string name="language">Language</string>
+    <string name="story_details">Story Details</string>
+    <string name="dummy_long_text" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in ante eget nibh luctus iaculis. Phasellus laoreet convallis neque. Vivamus faucibus tempus tellus, ultricies gravida purus malesuada sit amet. Fusce a est at lorem mollis porta id sit amet nibh. In ut porttitor nisi, in placerat justo. Quisque maximus massa.</string>
+    <string name="post_story_title">Post Story</string>
+    <string name="camera">Camera</string>
+    <string name="description">Description</string>
+    <string name="description_required_error_msg">Description is required!</string>
+    <string name="upload">Upload</string>
+    <string name="story_posted">Story Posted</string>
+    <string name="story_photo">Story Photo</string>
+    <string name="preview_image">Preview Image</string>
+    <string name="offline_error_msg">You are offline!</string>
+    <string name="author_name" translatable="false">Rivaldi Agustinus Nugraha Siringoringo</string>
+    <string name="author_email" translatable="false">a299bsy2108@bangkit.academy</string>
+    <string name="author_github" translatable="false">github.com/ValdiANS</string>
+    <string name="registration_successful">Registration Successful</string>
+    <string name="login_successful">Login Successful</string>
+    <string name="no_media_selected">No media selected</string>
+    <string name="password_input_label">Password</string>
+    <string name="gallery">Gallery</string>
+</resources>

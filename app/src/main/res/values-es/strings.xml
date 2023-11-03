@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="rocks_banner">Bandera de rocas</string>
+    <string name="storm_icon">Icono de tormenta</string>
+    <string name="story_app_slogan">Un lugar para compartir tus historias.</string>
+    <string name="first_slide_image_desc">Imagen de la historia de Neom</string>
+    <string name="second_slide_image_desc">Imagen de la historia de Kalem Emsley</string>
+    <string name="third_slide_image_desc">Imagen de la historia de Garrett Sears</string>
+    <string name="password_error_msg">La contraseña debe tener al menos 8 caracteres</string>
+    <string name="password_input_label">Contraseña</string>
+    <string name="email_input_label">Correo electrónico</string>
+    <string name="sign_in">Iniciar sesión</string>
+    <string name="sign_up_suggestion">¿Aún no tienes una cuenta? Registrate aquí.</string>
+    <string name="sign_up">Inscribirse</string>
+    <string name="email_error_msg">El formato del correo electrónico es incorrecto.</string>
+    <string name="register_here">Registrar aquí</string>
+    <string name="sign_in_suggestion">Ya tienes una cuenta? Firma aqui.</string>
+    <string name="name_input_label">Nombre</string>
+    <string name="required_email_error_msg">¡Correo electronico es requerido!</string>
+    <string name="password_required_error_msg">¡Se requiere contraseña!</string>
+    <string name="name_required_error_msg">¡Se requiere el nombre!</string>
+    <string name="logout">Cerrar Sesión</string>
+    <string name="about">Sobre nosotros</string>
+    <string name="empty_story_message">Aún no hay historias...</string>
+    <string name="language">Idioma</string>
+    <string name="story_details">Detalles de la historia</string>
+    <string name="post_story_title">Publicar historia</string>
+    <string name="camera">Cámara</string>
+    <string name="gallery">Galería</string>
+    <string name="description">Descripción</string>
+    <string name="description_required_error_msg">¡Se requiere descripción!</string>
+    <string name="upload">Subir</string>
+    <string name="story_posted">¡Historia publicada con éxito!</string>
+    <string name="story_photo">Foto de la Historia</string>
+    <string name="preview_image">Imagen de vista previa</string>
+    <string name="offline_error_msg">¡Estas desconectado!</string>
+    <string name="registration_successful">Registro exitoso</string>
+    <string name="login_successful">Inicio de sesión exitoso</string>
+    <string name="no_media_selected">Ningún medio seleccionado</string>
+</resources>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="rocks_banner">Banner Bebatuan</string>
+    <string name="storm_icon">Ikon Badai</string>
+    <string name="story_app_slogan">Tempat untuk berbagi cerita</string>
+    <string name="first_slide_image_desc">Gambar Cerita Neom</string>
+    <string name="second_slide_image_desc">Gambar Cerita Kalem Emsley</string>
+    <string name="third_slide_image_desc">Gambar Cerita Garrett Sears</string>
+    <string name="password_error_msg">Kata sandi harus terdiri dari minimal 8 karakter</string>
+    <string name="password_input_label">Kata Sandi</string>
+    <string name="email_input_label">Surel</string>
+    <string name="sign_in">Masuk</string>
+    <string name="sign_up_suggestion">Belum punya akun? Daftar disini.</string>
+    <string name="sign_up">Daftar</string>
+    <string name="email_error_msg">Format surel salah</string>
+    <string name="register_here">Daftar disini</string>
+    <string name="sign_in_suggestion">Sudah memiliki akun? Masuk di sini.</string>
+    <string name="name_input_label">Nama</string>
+    <string name="required_email_error_msg">Surel wajib diisi!</string>
+    <string name="password_required_error_msg">Kata sandi wajib diisi!</string>
+    <string name="name_required_error_msg">Nama wajib diisi!</string>
+    <string name="logout">Keluar</string>
+    <string name="about">Tentang Kami</string>
+    <string name="empty_story_message">Masih belum ada cerita…</string>
+    <string name="language">Bahasa</string>
+    <string name="story_details">Detail Cerita</string>
+    <string name="post_story_title">Posting Cerita</string>
+    <string name="camera">Kamera</string>
+    <string name="gallery">Galeri</string>
+    <string name="description">Deskripsi</string>
+    <string name="description_required_error_msg">Deskripsi wajib diisi!</string>
+    <string name="upload">Unggah</string>
+    <string name="story_posted">Cerita berhasil diposting!</string>
+    <string name="story_photo">Foto Cerita</string>
+    <string name="preview_image">Pratinjau Gamber</string>
+    <string name="offline_error_msg">Kamu sedang offline!</string>
+    <string name="registration_successful">Pendaftaran Berhasil</string>
+    <string name="login_successful">Berhasil Masuk</string>
+    <string name="no_media_selected">Tidak ada media yang dipilih</string>
+</resources>
