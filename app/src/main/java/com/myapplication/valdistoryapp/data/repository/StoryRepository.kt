@@ -2,14 +2,17 @@ package com.myapplication.valdistoryapp.data.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.liveData
-import androidx.lifecycle.map
-import com.myapplication.valdistoryapp.data.ResultState
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
+import com.myapplication.valdistoryapp.data.StoriesRemoteMediator
 import com.myapplication.valdistoryapp.data.local.entity.StoryEntity
 import com.myapplication.valdistoryapp.data.local.room.StoryDao
+import com.myapplication.valdistoryapp.data.local.room.StoryDatabase
 import com.myapplication.valdistoryapp.data.remote.response.GeneralStoryResponse
 import com.myapplication.valdistoryapp.data.remote.retrofit.ApiService
-import com.myapplication.valdistoryapp.utils.OFFLINE_ERROR_CODE
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -18,13 +21,27 @@ import java.io.File
 
 class StoryRepository private constructor(
     private val apiService: ApiService,
-    private val storyDao: StoryDao
+    private val storyDao: StoryDao,
+    private val db: StoryDatabase
 ) {
-    fun getAllStories(): LiveData<ResultState<List<StoryEntity>>> = liveData {
-        emit(ResultState.Loading)
+    @OptIn(ExperimentalPagingApi::class)
+    fun getAllStories(): LiveData<PagingData<StoryEntity>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 15
+            ),
 
+            remoteMediator = StoriesRemoteMediator(db, apiService),
+
+            pagingSourceFactory = {
+                storyDao.getAllStoriesPaging()
+            }
+        ).liveData
+    }
+
+    suspend fun getAllStoriesWithLocation(): List<StoryEntity>? {
         try {
-            val response = apiService.getAllStories()
+            val response = apiService.getAllStories(page = null, size = null, location = 1)
             val storyList = response.listStory
 
             val formattedStoryList = storyList.map { storyItem ->
@@ -39,17 +56,11 @@ class StoryRepository private constructor(
                 )
             }
 
-            storyDao.insertAllStories(formattedStoryList)
-
+            return formattedStoryList
         } catch (e: Exception) {
-            Log.d("StoryRepository", "getAllStories: ${e.message.toString()}")
-            emit(ResultState.Error(OFFLINE_ERROR_CODE))
+            Log.d("StoryRepository", "getAllStoriesWithLocation: ${e.message.toString()}")
+            return null
         }
-
-        val localData: LiveData<ResultState<List<StoryEntity>>> =
-            storyDao.getAllStories().map { ResultState.Success(it) }
-
-        emitSource(localData)
     }
 
     suspend fun getDetailStory(id: String): StoryEntity {
@@ -96,12 +107,14 @@ class StoryRepository private constructor(
 
         fun getInstance(
             apiService: ApiService,
-            storyDao: StoryDao
+            storyDao: StoryDao,
+            storyDb: StoryDatabase
         ): StoryRepository =
             INSTANCE ?: synchronized(this) {
                 INSTANCE ?: StoryRepository(
                     apiService,
-                    storyDao
+                    storyDao,
+                    storyDb
                 )
             }.also { INSTANCE = it }
     }

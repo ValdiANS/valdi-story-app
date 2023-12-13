@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -17,7 +17,7 @@ import com.myapplication.valdistoryapp.databinding.StoryCardItemBinding
 import com.myapplication.valdistoryapp.ui.pages.DetailStory.DetailStoryActivity
 import com.myapplication.valdistoryapp.utils.withDateFormat
 
-class StoriesAdapter() : ListAdapter<StoryEntity, StoriesAdapter.ViewHolder>(DIFF_CALLBACK) {
+class StoriesAdapter() : PagingDataAdapter<StoryEntity, StoriesAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
@@ -28,9 +28,11 @@ class StoriesAdapter() : ListAdapter<StoryEntity, StoriesAdapter.ViewHolder>(DIF
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val storyItem = getItem(position)
-        holder.bind(storyItem)
-    }
 
+        if (storyItem != null) {
+            holder.bind(storyItem)
+        }
+    }
 
     class ViewHolder(val binding: StoryCardItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(story: StoryEntity) {

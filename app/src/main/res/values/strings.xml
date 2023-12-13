@@ -51,4 +51,8 @@
     <string name="no_media_selected">No media selected</string>
     <string name="password_input_label">Password</string>
     <string name="gallery">Gallery</string>
+    <string name="title_activity_maps">Stories Maps</string>
+    <string name="retry">Try again</string>
+    <string name="add_current_location">Add current location</string>
+    <string name="location_not_found_error_msg">Location is not found. Try Again!</string>
 </resources>

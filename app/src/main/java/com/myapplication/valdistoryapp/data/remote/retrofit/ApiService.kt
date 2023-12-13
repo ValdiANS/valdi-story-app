@@ -44,7 +44,7 @@ interface ApiService {
     suspend fun getAllStories(
         @Query("page") page: Int? = 1,
         @Query("size") size: Int? = 15,
-        @Query("location") location: Int? = 0,
+        @Query("location") location: Int = 0,
     ): GetAllStoriesResponse
 
     @GET("/v1/stories/{id}")

@@ -7,6 +7,7 @@ import com.myapplication.valdistoryapp.data.repository.StoryRepository
 import com.myapplication.valdistoryapp.data.repository.UserRepository
 import com.myapplication.valdistoryapp.di.Injection
 import com.myapplication.valdistoryapp.ui.pages.Login.LoginViewModel
+import com.myapplication.valdistoryapp.ui.pages.Maps.MapsViewModel
 import com.myapplication.valdistoryapp.ui.pages.PostStory.PostStoryViewModel
 import com.myapplication.valdistoryapp.ui.pages.Register.RegisterViewModel
 import com.myapplication.valdistoryapp.ui.pages.Stories.MainViewModel
@@ -33,6 +34,10 @@ class ViewModelFactory(
 
             modelClass.isAssignableFrom(PostStoryViewModel::class.java) -> {
                 PostStoryViewModel(storyRepository) as T
+            }
+
+            modelClass.isAssignableFrom(MapsViewModel::class.java) -> {
+                MapsViewModel(storyRepository) as T
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

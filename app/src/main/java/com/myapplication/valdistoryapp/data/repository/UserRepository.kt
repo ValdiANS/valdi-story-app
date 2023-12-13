@@ -5,6 +5,7 @@ import com.myapplication.valdistoryapp.data.local.pref.UserPreference
 import com.myapplication.valdistoryapp.data.remote.response.GeneralStoryResponse
 import com.myapplication.valdistoryapp.data.remote.response.LoginResponse
 import com.myapplication.valdistoryapp.data.remote.retrofit.ApiService
+import com.myapplication.valdistoryapp.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.flow.Flow
 
 class UserRepository private constructor(
@@ -16,22 +17,25 @@ class UserRepository private constructor(
     }
 
     suspend fun login(email: String, password: String): LoginResponse {
-        val loginResponse = apiService.login(email, password)
-        val loginResult = loginResponse.loginResult
+//        wrapEspressoIdlingResource {
 
-        if (!loginResponse.error) {
-            userPreference.saveSession(
-                UserModel(
-                    loginResult.userId,
-                    loginResult.name,
-                    loginResult.token
+            val loginResponse = apiService.login(email, password)
+            val loginResult = loginResponse.loginResult
+
+            if (!loginResponse.error) {
+                userPreference.saveSession(
+                    UserModel(
+                        loginResult.userId,
+                        loginResult.name,
+                        loginResult.token
+                    )
                 )
-            )
-        }
+            }
 
-        return loginResponse
+            return loginResponse
+//        }
     }
-    
+
     fun getSession(): Flow<UserModel> = userPreference.getSession()
 
     suspend fun logout() = userPreference.logout()

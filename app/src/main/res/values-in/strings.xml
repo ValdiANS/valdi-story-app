@@ -37,4 +37,8 @@
     <string name="registration_successful">Pendaftaran Berhasil</string>
     <string name="login_successful">Berhasil Masuk</string>
     <string name="no_media_selected">Tidak ada media yang dipilih</string>
+    <string name="title_activity_maps">Peta Cerita</string>
+    <string name="retry">Coba lagi</string>
+    <string name="add_current_location">Tambahkan lokasi saat ini</string>
+    <string name="location_not_found_error_msg">Lokasi tidak ditemukan. Coba lagi!</string>
 </resources>

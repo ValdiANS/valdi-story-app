@@ -61,9 +61,9 @@
 
                     <ImageView
                         android:id="@+id/iv_preview_image"
-                        android:contentDescription="@string/preview_image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:contentDescription="@string/preview_image"
                         android:scaleType="centerCrop"
                         android:src="@drawable/placeholder_img" />
 
@@ -118,17 +118,24 @@
 
             </com.myapplication.valdistoryapp.ui.components.CustomTextInputLayout>
 
+            <CheckBox
+                android:id="@+id/checkbox_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_current_location"
+                app:layout_constraintStart_toStartOf="@id/description_input_layout"
+                app:layout_constraintTop_toBottomOf="@id/description_input_layout" />
+
             <Button
                 android:id="@+id/btn_upload"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="32dp"
-                android:layout_marginTop="8dp"
                 android:enabled="false"
                 android:text="@string/upload"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/description_input_layout" />
+                app:layout_constraintTop_toBottomOf="@id/checkbox_location" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

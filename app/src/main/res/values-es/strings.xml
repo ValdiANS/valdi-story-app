@@ -37,4 +37,8 @@
     <string name="registration_successful">Registro exitoso</string>
     <string name="login_successful">Inicio de sesión exitoso</string>
     <string name="no_media_selected">Ningún medio seleccionado</string>
+    <string name="title_activity_maps">Historias Mapas</string>
+    <string name="retry">Intentar otra vez</string>
+    <string name="add_current_location">Agregar ubicación actual</string>
+    <string name="location_not_found_error_msg">Ubicación no encontrada. ¡Intentar otra vez!</string>
 </resources>

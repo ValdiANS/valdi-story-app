@@ -1,5 +1,8 @@
 package com.myapplication.valdistoryapp.ui.pages.PostStory
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.location.Location
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,7 +11,14 @@ import android.widget.Button
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
+import com.google.android.gms.tasks.CancellationToken
+import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.gson.Gson
 import com.myapplication.valdistoryapp.R
 import com.myapplication.valdistoryapp.data.remote.response.GeneralStoryResponse
@@ -29,8 +39,12 @@ class PostStoryActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityPostStoryBinding
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private var currentImageUri: Uri? = null
+    private var userCurrentLatitude: Double? = null
+    private var userCurrentLongitude: Double? = null
+    private var isAddingLocation: Boolean = false
 
     private val launcherGallery = registerForActivityResult(
         ActivityResultContracts.PickVisualMedia()
@@ -54,6 +68,24 @@ class PostStoryActivity : AppCompatActivity() {
         }
     }
 
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        when {
+            permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
+                // Precise location access granted.
+                getMyLocation()
+            }
+
+            permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
+                // Only approximate location access granted.
+                getMyLocation()
+            }
+
+            else -> {}
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPostStoryBinding.inflate(layoutInflater)
@@ -61,6 +93,9 @@ class PostStoryActivity : AppCompatActivity() {
 
         setupAction()
         setupFormValidation()
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        getMyLocation()
     }
 
     private fun setupAction() {
@@ -77,6 +112,10 @@ class PostStoryActivity : AppCompatActivity() {
         binding.btnGallery.setOnClickListener {
             // Start Gallery
             launcherGallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+
+        binding.checkboxLocation.setOnCheckedChangeListener { btnView, isChecked ->
+            isAddingLocation = isChecked
         }
 
         binding.btnUpload.setOnClickListener {
@@ -114,7 +153,16 @@ class PostStoryActivity : AppCompatActivity() {
 
             lifecycleScope.launch {
                 try {
-                    val response = viewModel.postStory(description, imgFile)
+                    val response = if (isAddingLocation) {
+                        viewModel.postStory(
+                            description,
+                            imgFile,
+                            userCurrentLatitude,
+                            userCurrentLongitude
+                        )
+                    } else {
+                        viewModel.postStory(description, imgFile)
+                    }
 
                     setResult(POST_STORY_RESULT)
                     finish()
@@ -137,6 +185,45 @@ class PostStoryActivity : AppCompatActivity() {
             binding.progressLinear.show()
         } else {
             binding.progressLinear.hide()
+        }
+    }
+
+    private fun checkPermission(permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun getMyLocation() {
+        if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
+            checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+        ) {
+            fusedLocationClient.getCurrentLocation(
+                Priority.PRIORITY_HIGH_ACCURACY,
+                object : CancellationToken() {
+                    override fun onCanceledRequested(p0: OnTokenCanceledListener): CancellationToken {
+                        return CancellationTokenSource().token
+                    }
+
+                    override fun isCancellationRequested(): Boolean = false
+                })
+                .addOnSuccessListener { location: Location? ->
+                    if (location != null) {
+                        userCurrentLatitude = location.latitude
+                        userCurrentLongitude = location.longitude
+                    } else {
+                        showSnackbar(binding.root, getString(R.string.location_not_found_error_msg))
+                    }
+                }
+
+        } else {
+            requestPermissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
         }
     }
 

@@ -14,15 +14,13 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.myapplication.valdistoryapp.R
-import com.myapplication.valdistoryapp.data.ResultState
-import com.myapplication.valdistoryapp.data.local.entity.StoryEntity
 import com.myapplication.valdistoryapp.data.local.pref.UserModel
 import com.myapplication.valdistoryapp.databinding.ActivityMainBinding
 import com.myapplication.valdistoryapp.ui.ViewModelFactory
 import com.myapplication.valdistoryapp.ui.pages.About.AboutActivity
 import com.myapplication.valdistoryapp.ui.pages.Login.LoginActivity
+import com.myapplication.valdistoryapp.ui.pages.Maps.MapsActivity
 import com.myapplication.valdistoryapp.ui.pages.PostStory.PostStoryActivity
-import com.myapplication.valdistoryapp.utils.OFFLINE_ERROR_CODE
 import com.myapplication.valdistoryapp.utils.hide
 import com.myapplication.valdistoryapp.utils.moveToActivity
 import com.myapplication.valdistoryapp.utils.show
@@ -41,8 +39,10 @@ class MainActivity : AppCompatActivity() {
         ActivityResultContracts.StartActivityForResult()
     ) {
         if (it.resultCode == PostStoryActivity.POST_STORY_RESULT) {
-            getAllStoriesObserver()
+            getStoriesData()
             showSnackbar(binding.root, getString(R.string.story_posted))
+
+            binding.rvStories.smoothScrollToPosition(0)
         }
     }
 
@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
             redirectUserIfNotLoggedIn(user)
         }
 
-        getAllStoriesObserver()
+        getStoriesData()
     }
 
     private fun setupAction() {
@@ -85,6 +85,11 @@ class MainActivity : AppCompatActivity() {
 
                     R.id.action_about -> {
                         moveToActivity(AboutActivity::class.java, false)
+                        true
+                    }
+
+                    R.id.action_map -> {
+                        moveToActivity(MapsActivity::class.java)
                         true
                     }
 
@@ -134,40 +139,6 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private fun getAllStoriesObserver() {
-        viewModel.getAllStories().observe(this) { resultState ->
-            when (resultState) {
-                is ResultState.Loading -> {
-                    showLoading(true)
-                }
-
-                is ResultState.Error -> {
-                    showLoading(false)
-
-                    binding.rvStories.hide()
-
-                    if (resultState.errorCode == OFFLINE_ERROR_CODE) {
-                        showSnackbar(binding.rvStories, getString(R.string.offline_error_msg))
-                    }
-                }
-
-                is ResultState.Success -> {
-                    val storiesData = resultState.data
-
-                    if (storiesData.isEmpty()) {
-                        binding.tvEmptyStoryMsg.show()
-                    } else {
-                        binding.tvEmptyStoryMsg.hide()
-                    }
-
-                    setStoriesData(storiesData)
-
-                    showLoading(false)
-                }
-            }
-        }
-    }
-
     private fun logoutHandler() {
         lifecycleScope.launch {
             try {
@@ -180,10 +151,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setStoriesData(storiesData: List<StoryEntity>) {
+    private fun getStoriesData() {
         val adapter = StoriesAdapter()
-        adapter.submitList(storiesData)
-        binding.rvStories.adapter = adapter
+        binding.rvStories.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapter.retry()
+            }
+        )
+
+        viewModel.getAllStories().observe(this) {
+            adapter.submitData(lifecycle, it)
+        }
     }
 
     private fun showLoading(isLoading: Boolean) {
